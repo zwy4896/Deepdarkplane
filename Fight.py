@@ -1,7 +1,7 @@
 #######################
-#       Demo          #
-#     2017/5/5        #
-#       ZWY           #
+#        Demo         #
+#      2017/5/5       #
+#       by ZWY        #
 #######################
 
 
@@ -19,7 +19,7 @@ pygame.mixer.init()
 
 bg_size = width,height = 480,700
 screen = pygame.display.set_mode(bg_size)
-pygame.display.set_caption("飞机Dark战")
+pygame.display.set_caption("飞机Dark战_by Wuyang")
 
 background = pygame.image.load("images/bg.png").convert()
 
@@ -98,10 +98,10 @@ def main():
 
     #生成子弹
     bullet1 = []
-    bullet1_idx = 0
+    bullet1_idx = 1
     BULLET1_NUM = 10
     for i in range(BULLET1_NUM):
-        bullet1.append(bullet.Bullet1(me.rect.midtop))
+        bullet1.append(bullet.Bullet1(me.rect.midleft))
     
     clock = pygame.time.Clock()
 
@@ -117,7 +117,7 @@ def main():
     score = 0
     score_font = pygame.font.Font("fonts/STCAIYUN.TTF",36)
 
-
+    cp_info_font = pygame.font.Font("fonts/GIGI.TTF",28)
 
     #暂停游戏
     paused = False
@@ -183,39 +183,42 @@ def main():
         if level == 1 and score >= 3:
             level = 2
             lvl_upd_sound.play()
-            #增加三架小型敌机，两架中，1架大
+            #增加三架小型敌机，两架中，2架大
             add_sml_enemies(sml_enemies, enemies, 3)
             add_mid_enemies(mid_enemies, enemies, 2)
-            add_big_enemies(big_enemies, enemies, 1)
+            add_big_enemies(big_enemies, enemies, 2)
             #加速
             inc_speed(sml_enemies, 1)
 
         elif level == 2 and score >= 8:
             level = 3
             lvl_upd_sound.play()
-            #增加三架小型敌机，两架中，1架大
+            #增加4架小型敌机，2架中，2架大
             add_sml_enemies(sml_enemies, enemies, 4)
             add_mid_enemies(mid_enemies, enemies, 2)
-            add_big_enemies(big_enemies, enemies, 1)
+            add_big_enemies(big_enemies, enemies, 2)
             #加速小
             inc_speed(sml_enemies, 1)
-            #加速大
+            #加速中
             inc_speed(mid_enemies, 1)
         elif level == 3 and score >= 15:
             level = 4
             lvl_upd_sound.play()
-            #增加三架小型敌机，两架中，1架大
+            #增加三架小型敌机，两架中，2架大
             add_sml_enemies(sml_enemies, enemies, 5)
             add_mid_enemies(mid_enemies, enemies, 2)
-            add_big_enemies(big_enemies, enemies, 1)
+            add_big_enemies(big_enemies, enemies, 2)
             #加速小
             inc_speed(sml_enemies, 1)
-            #加速大
+            #加速中
             inc_speed(mid_enemies, 1)
 
         
         #绘制开始界面
         screen.blit(background,(0,0))
+
+        cp_info_text = cp_info_font.render("Made by Wuyang Zhang", True, BLACK)
+        screen.blit(cp_info_text, (200, 650))
         strt_rect.left, strt_rect.top = 150, 200
         screen.blit(strt_image, strt_rect)
 
@@ -254,7 +257,7 @@ def main():
                 if key_pressed[K_SPACE]:
                     #发射子弹
                     if not(delay % 20):
-                        bullet1[bullet1_idx].reset(me.rect.midtop)
+                        bullet1[bullet1_idx].reset(me.rect.topleft)
                         bullet1_idx = (bullet1_idx + 1) % BULLET1_NUM
                     
 
@@ -277,6 +280,8 @@ def main():
                                         e.active = False
                                 else:
                                     e.active = False
+
+        
                 #绘制大型敌机
                 for each in big_enemies:
                     if each.active:
@@ -334,6 +339,23 @@ def main():
                                 screen.blit(each.image1, each.rect)
                             else:
                                 screen.blit(each.image2, each.rect)
+
+                        #血槽
+                        pygame.draw.line(screen, BLACK,\
+                                         (each.rect.left, each.rect.top - 5),\
+                                         (each.rect.right, each.rect.top -5),\
+                                         2)
+
+                        #大于20%显示绿色，否则红色
+                        energy_remain = each.energy / enemy.MidEnemy.energy
+                        if energy_remain > 0.2:
+                            energy_color = GREEN
+                        else:
+                            energy_color = RED
+                        pygame.draw.line(screen, energy_color,\
+                                         (each.rect.left, each.rect.top - 5),\
+                                         (each.rect.left + each.rect.width * energy_remain,\
+                                          each.rect.top - 5),2)
                     else:
                         #毁灭
                         if not(delay % 3):
