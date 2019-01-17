@@ -98,10 +98,10 @@ def main():
 
     #生成子弹
     bullet1 = []
-    bullet1_idx = 0
+    bullet1_idx = 1
     BULLET1_NUM = 10
     for i in range(BULLET1_NUM):
-        bullet1.append(bullet.Bullet1(me.rect.midtop))
+        bullet1.append(bullet.Bullet1(me.rect.midleft))
     
     clock = pygame.time.Clock()
 
@@ -257,7 +257,7 @@ def main():
                 if key_pressed[K_SPACE]:
                     #发射子弹
                     if not(delay % 20):
-                        bullet1[bullet1_idx].reset(me.rect.midtop)
+                        bullet1[bullet1_idx].reset(me.rect.topleft)
                         bullet1_idx = (bullet1_idx + 1) % BULLET1_NUM
                     
 
