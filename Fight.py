@@ -13,32 +13,26 @@ import enemy
 import bullet
 from pygame.locals import *
 from random import *
+from manager import sound_manager
 
 pygame.init()
 pygame.mixer.init()
-
 bg_size = width,height = 480,700
 screen = pygame.display.set_mode(bg_size)
-pygame.display.set_caption("飞机Dark战_by Wuyang")
+pygame.display.set_caption("飞机Dark战")
 
-background = pygame.image.load("images/bg.png").convert()
+background = pygame.image.load("assets/images/bg.png").convert()
 
 
 BLACK = (0, 0, 0)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
-
 #载入游戏音乐
-pygame.mixer.music.load("sounds/loop.wav")
-pygame.mixer.music.set_volume(0.2)
-boss_flight_sound = pygame.mixer.Sound("sounds/boss.wav")
-boss_flight_sound.set_volume(0.2)
-boss_down_sound = pygame.mixer.Sound("sounds/boss_down_sound.wav")
-boss_down_sound.set_volume(0.5)
-down_sound = pygame.mixer.Sound("sounds/down_sound.wav")
-down_sound.set_volume(0.2)
-lvl_upd_sound = pygame.mixer.Sound("sounds/lvl_upd.wav")
-lvl_upd_sound.set_volume(0.2)
+sound_manager.get_bgm('assets/sounds/loop.wav', 1)
+boss_flight_sound = sound_manager.get_sound('assets/sounds/boss.wav', 1)
+boss_down_sound = sound_manager.get_sound('assets/sounds/boss_down_sound.wav', 1.5)
+down_sound = sound_manager.get_sound('assets/sounds/down_sound.wav', 1)
+lvl_upd_sound = sound_manager.get_sound('assets/sounds/lvl_upd.wav', 1)
 
 def add_sml_enemies(group1, group2, num):
     for i in range(num):
@@ -66,14 +60,14 @@ def inc_speed(target, inc):
 def main():
     #生成开始界面
     run = False
-    strt_image = pygame.image.load("images/strt.png").convert_alpha()
+    strt_image = pygame.image.load("assets/images/strt.png").convert_alpha()
     strt_rect = strt_image.get_rect()
 
-    help_image = pygame.image.load("images/help.png").convert_alpha()
+    help_image = pygame.image.load("assets/images/help.png").convert_alpha()
     help_rect = help_image.get_rect()
 
     #帮助界面
-    help_text = pygame.image.load("images/help_text1.png").convert_alpha()
+    help_text = pygame.image.load("assets/images/help_text1.png").convert_alpha()
     help_text_rect = help_text.get_rect()
     
     pygame.mixer.music.play(-1)
@@ -115,16 +109,16 @@ def main():
 
     #计分板
     score = 0
-    score_font = pygame.font.Font("fonts/STCAIYUN.TTF",36)
+    score_font = pygame.font.Font("assets/fonts/STCAIYUN.TTF",36)
 
-    cp_info_font = pygame.font.Font("fonts/GIGI.TTF",28)
+    cp_info_font = pygame.font.Font("assets/fonts/GIGI.TTF",28)
 
     #暂停游戏
     paused = False
-    pause_nor_image = pygame.image.load("images/pause_nor.png").convert_alpha()
-    pause_prs_image = pygame.image.load("images/pause_prs.png").convert_alpha()
-    resume_nor_image = pygame.image.load("images/resume_nor.png").convert_alpha()
-    resume_prs_image = pygame.image.load("images/resume_prs.png").convert_alpha()
+    pause_nor_image = pygame.image.load("assets/images/pause_nor.png").convert_alpha()
+    pause_prs_image = pygame.image.load("assets/images/pause_prs.png").convert_alpha()
+    resume_nor_image = pygame.image.load("assets/images/resume_nor.png").convert_alpha()
+    resume_prs_image = pygame.image.load("assets/images/resume_prs.png").convert_alpha()
     paused_rect = pause_nor_image.get_rect()
     paused_rect.left, paused_rect.top = width - paused_rect.width - 10, 10
     paused_image = pause_nor_image
@@ -133,16 +127,16 @@ def main():
     level = 1
 
     #等级信息
-    level_font = pygame.font.Font("fonts/GIGI.TTF",36)
+    level_font = pygame.font.Font("assets/fonts/GIGI.TTF",36)
 
     #生命数量
     life_num = 1
 
     #GameOver画面
-    gmov_font = pygame.font.Font("fonts/GIGI.TTF",48)
-    again_image = pygame.image.load("images/again.png").convert_alpha()
+    gmov_font = pygame.font.Font("assets/fonts/GIGI.TTF",48)
+    again_image = pygame.image.load("assets/images/again.png").convert_alpha()
     again_rect = again_image.get_rect()
-    gmov_image = pygame.image.load("images/gmov.png").convert_alpha()
+    gmov_image = pygame.image.load("assets/images/gmov.png").convert_alpha()
     gmov_rect = gmov_image.get_rect()
 
     #阻止重复打开记录文件
@@ -261,25 +255,25 @@ def main():
                         bullet1_idx = (bullet1_idx + 1) % BULLET1_NUM
                     
 
-                #击中检测
-                for b in bullet1:
-                    if b.active:
-                        b.move()
-                        if switch_image:
-                            screen.blit(b.image0, b.rect)
-                        else:
-                            screen.blit(b.image1, b.rect)
-                        enm_hit = pygame.sprite.spritecollide(b, enemies, False, pygame.sprite.collide_mask)
-                        if enm_hit:
-                            b.active = False
-                            for e in enm_hit:
-                                if e in mid_enemies or e in big_enemies:
-                                    e.hit = True
-                                    e.energy -= 1
-                                    if e.energy == 0:
+                    #击中检测
+                    for b in bullet1:
+                        if b.active:
+                            b.move()
+                            if switch_image:
+                                screen.blit(b.image0, b.rect)
+                            else:
+                                screen.blit(b.image1, b.rect)
+                            enm_hit = pygame.sprite.spritecollide(b, enemies, False, pygame.sprite.collide_mask)
+                            if enm_hit:
+                                b.active = False
+                                for e in enm_hit:
+                                    if e in mid_enemies or e in big_enemies:
+                                        e.hit = True
+                                        e.energy -= 1
+                                        if e.energy == 0:
+                                            e.active = False
+                                    else:
                                         e.active = False
-                                else:
-                                    e.active = False
 
         
                 #绘制大型敌机

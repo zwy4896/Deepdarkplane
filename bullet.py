@@ -4,8 +4,8 @@ class Bullet1(pygame.sprite.Sprite):
     def __init__(self, position):
         pygame.sprite.Sprite.__init__(self)
 
-        self.image0 = pygame.image.load("images/bullet0.png").convert_alpha()
-        self.image1 = pygame.image.load("images/bullet1.png").convert_alpha()
+        self.image0 = pygame.image.load("assets/images/bullet0.png").convert_alpha()
+        self.image1 = pygame.image.load("assets/images/bullet1.png").convert_alpha()
         self.rect = self.image0.get_rect()
         self.rect.left, self.rect.top = position
         self.speed = 3
