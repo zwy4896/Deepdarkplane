@@ -255,25 +255,25 @@ def main():
                         bullet1_idx = (bullet1_idx + 1) % BULLET1_NUM
                     
 
-                    #击中检测
-                    for b in bullet1:
-                        if b.active:
-                            b.move()
-                            if switch_image:
-                                screen.blit(b.image0, b.rect)
-                            else:
-                                screen.blit(b.image1, b.rect)
-                            enm_hit = pygame.sprite.spritecollide(b, enemies, False, pygame.sprite.collide_mask)
-                            if enm_hit:
-                                b.active = False
-                                for e in enm_hit:
-                                    if e in mid_enemies or e in big_enemies:
-                                        e.hit = True
-                                        e.energy -= 1
-                                        if e.energy == 0:
-                                            e.active = False
-                                    else:
+                #击中检测
+                for b in bullet1:
+                    if b.active:
+                        b.move()
+                        if switch_image:
+                            screen.blit(b.image0, b.rect)
+                        else:
+                            screen.blit(b.image1, b.rect)
+                        enm_hit = pygame.sprite.spritecollide(b, enemies, False, pygame.sprite.collide_mask)
+                        if enm_hit:
+                            b.active = False
+                            for e in enm_hit:
+                                if e in mid_enemies or e in big_enemies:
+                                    e.hit = True
+                                    e.energy -= 1
+                                    if e.energy == 0:
                                         e.active = False
+                                else:
+                                    e.active = False
 
         
                 #绘制大型敌机
