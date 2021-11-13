@@ -13,26 +13,15 @@ import enemy
 import bullet
 from pygame.locals import *
 from random import *
-from manager import sound_manager
+from manager import game_scene
 
-pygame.init()
-pygame.mixer.init()
-bg_size = width,height = 480,700
-screen = pygame.display.set_mode(bg_size)
-pygame.display.set_caption("飞机Dark战")
-
-background = pygame.image.load("assets/images/bg.png").convert()
-
+scene = game_scene.GameScene()
+bg_size = scene.bg_size
+width, height = scene.width, scene.height
 
 BLACK = (0, 0, 0)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
-#载入游戏音乐
-sound_manager.get_bgm('assets/sounds/loop.wav', 1)
-boss_flight_sound = sound_manager.get_sound('assets/sounds/boss.wav', 1)
-boss_down_sound = sound_manager.get_sound('assets/sounds/boss_down_sound.wav', 1.5)
-down_sound = sound_manager.get_sound('assets/sounds/down_sound.wav', 1)
-lvl_upd_sound = sound_manager.get_sound('assets/sounds/lvl_upd.wav', 1)
 
 def add_sml_enemies(group1, group2, num):
     for i in range(num):
@@ -60,19 +49,21 @@ def inc_speed(target, inc):
 def main():
     #生成开始界面
     run = False
-    strt_image = pygame.image.load("assets/images/strt.png").convert_alpha()
-    strt_rect = strt_image.get_rect()
-
-    help_image = pygame.image.load("assets/images/help.png").convert_alpha()
-    help_rect = help_image.get_rect()
-
-    #帮助界面
-    help_text = pygame.image.load("assets/images/help_text1.png").convert_alpha()
-    help_text_rect = help_text.get_rect()
+    scene = game_scene.GameScene()
+    scene.game_scene()
     
-    pygame.mixer.music.play(-1)
-
-
+    lvl_upd_sound = scene.lvl_upd_sound
+    screen = scene.screen
+    background = scene.background
+    boss_flight_sound = scene.boss_flight_sound
+    boss_down_sound = scene.boss_down_sound
+    down_sound = scene.down_sound
+    strt_rect = scene.strt_rect
+    strt_image = scene.strt_image
+    help_image = scene.help_image
+    help_rect = scene.help_rect
+    help_text = scene.help_text
+    help_text_rect = scene.help_text_rect
     #生成我方飞机
     me = myplane.MyPlane(bg_size)
 
@@ -255,25 +246,25 @@ def main():
                         bullet1_idx = (bullet1_idx + 1) % BULLET1_NUM
                     
 
-                    #击中检测
-                    for b in bullet1:
-                        if b.active:
-                            b.move()
-                            if switch_image:
-                                screen.blit(b.image0, b.rect)
-                            else:
-                                screen.blit(b.image1, b.rect)
-                            enm_hit = pygame.sprite.spritecollide(b, enemies, False, pygame.sprite.collide_mask)
-                            if enm_hit:
-                                b.active = False
-                                for e in enm_hit:
-                                    if e in mid_enemies or e in big_enemies:
-                                        e.hit = True
-                                        e.energy -= 1
-                                        if e.energy == 0:
-                                            e.active = False
-                                    else:
+                #击中检测
+                for b in bullet1:
+                    if b.active:
+                        b.move()
+                        if switch_image:
+                            screen.blit(b.image0, b.rect)
+                        else:
+                            screen.blit(b.image1, b.rect)
+                        enm_hit = pygame.sprite.spritecollide(b, enemies, False, pygame.sprite.collide_mask)
+                        if enm_hit:
+                            b.active = False
+                            for e in enm_hit:
+                                if e in mid_enemies or e in big_enemies:
+                                    e.hit = True
+                                    e.energy -= 1
+                                    if e.energy == 0:
                                         e.active = False
+                                else:
+                                    e.active = False
 
         
                 #绘制大型敌机
