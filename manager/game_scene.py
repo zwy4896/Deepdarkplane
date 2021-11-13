@@ -15,7 +15,7 @@ class GameScene(object):
         pygame.display.set_caption("飞机Dark战")
 
     def init_scene(self):
-        self.bg_size = width, height = 480, 700
+        self.bg_size = self.width, self.height = 480, 700
         self.screen = pygame.display.set_mode(self.bg_size)
         self.background = pygame.image.load("assets/images/bg.png").convert()
         print('游戏场景初始化完毕!')
@@ -28,3 +28,17 @@ class GameScene(object):
         self.lvl_upd_sound = sound_manager.get_sound('assets/sounds/lvl_upd.wav', 1)
         print('声音加载完毕!')
     
+    def game_scene(self):
+        self.strt_image = pygame.image.load("assets/images/strt.png").convert_alpha()
+        self.strt_rect = self.strt_image.get_rect()
+
+        self.help_image = pygame.image.load("assets/images/help.png").convert_alpha()
+        self.help_rect = self.help_image.get_rect()
+
+        #帮助界面
+        self.help_text = pygame.image.load("assets/images/help_text1.png").convert_alpha()
+        self.help_text_rect = self.help_text.get_rect()
+        pygame.mixer.music.play(-1)
+    
+    def bgm_play(self):
+        pygame.mixer.music.play(-1)
