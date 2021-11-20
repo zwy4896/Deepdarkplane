@@ -9,7 +9,7 @@ class Bullet1(pygame.sprite.Sprite):
         self.rect = self.image0.get_rect()
         self.rect.left, self.rect.top = position
         self.speed = 3
-        self.active = True
+        self.active = False
         self.mask = pygame.mask.from_surface(self.image0)
         self.mask = pygame.mask.from_surface(self.image1)
 

@@ -241,8 +241,9 @@ def main():
                 #空格键发射子弹
                 if key_pressed[K_SPACE]:
                     #发射子弹
-                    if not(delay % 20):
+                    if not(delay % 10):
                         bullet1[bullet1_idx].reset(me.rect.midtop)
+                        bullet1[bullet1_idx].active = True
                         bullet1_idx = (bullet1_idx + 1) % BULLET1_NUM
                     
 
