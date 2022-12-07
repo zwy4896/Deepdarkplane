@@ -8,7 +8,7 @@ class Bullet1(pygame.sprite.Sprite):
         self.image1 = pygame.image.load("assets/images/bullet1.png").convert_alpha()
         self.rect = self.image0.get_rect()
         self.rect.left, self.rect.top = position
-        self.speed = 3
+        self.speed = 8
         self.active = False
         self.mask = pygame.mask.from_surface(self.image0)
         self.mask = pygame.mask.from_surface(self.image1)

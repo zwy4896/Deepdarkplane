@@ -106,3 +106,4 @@ ENV/
 *.TTF
 *ico
 *.txt
+.DS_Store

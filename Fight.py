@@ -1,8 +1,11 @@
-#######################
-#        Demo         #
-#      2017/5/5       #
-#       by ZWY        #
-#######################
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+'''
+File        : Fight.py
+Description : 
+Date        : 2022/12/07 23:35:31
+Author      : Bluzy
+'''
 
 
 import pygame
@@ -84,9 +87,9 @@ def main():
     #生成子弹
     bullet1 = []
     bullet1_idx = 0
-    BULLET1_NUM = 10
+    BULLET1_NUM = 20
     for i in range(BULLET1_NUM):
-        bullet1.append(bullet.Bullet1(me.rect.midtop))
+        bullet1.append(bullet.Bullet1(me.rect.topleft))
     
     clock = pygame.time.Clock()
 
@@ -202,7 +205,7 @@ def main():
         #绘制开始界面
         screen.blit(background,(0,0))
 
-        cp_info_text = cp_info_font.render("Made by Wuyang Zhang", True, BLACK)
+        cp_info_text = cp_info_font.render("Made by Bluzy", True, BLACK)
         screen.blit(cp_info_text, (200, 650))
         strt_rect.left, strt_rect.top = 150, 200
         screen.blit(strt_image, strt_rect)
@@ -241,8 +244,8 @@ def main():
                 #空格键发射子弹
                 if key_pressed[K_SPACE]:
                     #发射子弹
-                    if not(delay % 10):
-                        bullet1[bullet1_idx].reset(me.rect.midtop)
+                    if not(delay % 20):
+                        bullet1[bullet1_idx].reset(me.rect.topleft)
                         bullet1[bullet1_idx].active = True
                         bullet1_idx = (bullet1_idx + 1) % BULLET1_NUM
                     
