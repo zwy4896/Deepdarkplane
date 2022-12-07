@@ -18,10 +18,10 @@ class MyPlane(pygame.sprite.Sprite):
         self.rect.left,self.rect.top = \
                                      (self.width - self.rect.width) // 2, \
                                      self.height - self.rect.height - 60
-        self.speed = 8
+        self.speed = 4
         self.active = True
         self.mask = pygame.mask.from_surface(self.image1)
-        self.mask = pygame.mask.from_surface(self.image2)
+        # self.mask = pygame.mask.from_surface(self.image2)
 
     def moveUp(self):
         if self.rect.top > 0:
