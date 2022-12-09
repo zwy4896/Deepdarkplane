@@ -17,10 +17,14 @@ import bullet
 from pygame.locals import *
 from random import *
 from Managers import Manager
+import threading
 
-BLACK = (0, 0, 0)
-GREEN = (0, 255, 0)
-RED = (255, 0, 0)
+class mouse_thread(threading.Thread):
+    def __init__(self) -> None:
+        threading.Thread.__init__(self)
+    
+    def run(self) -> None:
+        return super().run()
 
 def main():
     clock = pygame.time.Clock()
@@ -28,6 +32,7 @@ def main():
     run = False
     manager = Manager()
     scene = manager.scene
+    game_scene = manager.game_scene
     invoke = manager.invoke
     
     running = True
@@ -56,15 +61,23 @@ def main():
                     else:
                         paused_image = scene.pause_nor_image
         #绘制开始界面
-        scene.screen.blit(scene.background,(0,0))
-        cp_info_text = scene.cp_info_font.render("Made by Bluzy", True, BLACK)
-        scene.screen.blit(cp_info_text, (200, 650))
-        scene.strt_rect.left, scene.strt_rect.top = 150, 200
-        scene.screen.blit(scene.strt_image, scene.strt_rect)
+        game_scene.update(scene)
 
-        scene.help_rect.left, scene.help_rect.top = 150, 290
-        scene.screen.blit(scene.help_image, scene.help_rect)
+        #检测鼠标操作
+        if pygame.mouse.get_pressed()[0]:
+            pos = pygame.mouse.get_pos()
 
+            if scene.strt_rect.left < pos[0] < scene.strt_rect.right and \
+                scene.strt_rect.top < pos[1] < scene.strt_rect.bottom:
+                run = True
+                
+
+            elif scene.help_rect.left < pos[0] < scene.help_rect.right and \
+                    scene.help_rect.top < pos[1] < scene.help_rect.bottom:
+                scene.screen.blit(scene.help_text, scene.help_text_rect)
+        
+        #暂停按钮
+        scene.screen.blit(paused_image, scene.paused_rect)
         pygame.display.flip()
         clock.tick(60)
 

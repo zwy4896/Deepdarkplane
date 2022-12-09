@@ -7,7 +7,7 @@ Contact     : zoe4896@outlook.com
 Description : 
 '''
 
-from abstract import BackGround, SceneFactory
+from abstract import BackGround, SceneFactory, Audio, Button, Font
 import Managers.sound_manager as sound_manager
 import pygame
 
@@ -15,7 +15,7 @@ class MainSceneFactory(SceneFactory):
     def get_scene(self, level):
         return MainScene(level)
 
-class MainScene(BackGround):
+class MainScene(BackGround, Audio, Button, Font):
     def __init__(self, level) -> None:
         super().__init__()
         self.level = level

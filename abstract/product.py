@@ -18,4 +18,11 @@ class Audio(ABC):
     @abstractmethod
     def create_audio(self):
         pass
-    
+class Button(ABC):
+    @abstractmethod
+    def create_button(self):
+        pass
+class Font(ABC):
+    @abstractmethod
+    def create_font(self):
+        pass

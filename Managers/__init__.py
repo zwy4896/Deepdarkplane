@@ -15,8 +15,8 @@ from Managers.game_scene import GameScene
 
 class Manager():
     def __init__(self) -> None:
-        main_scene = MainSceneFactory()
-        self.scene = main_scene.get_scene('initial')
-        GameScene(self.scene)
+        factory = MainSceneFactory()
+        self.scene = factory.get_scene('initial')
+        self.game_scene = GameScene(self.scene)
         self.player = Player(0, 0, 0)
         self.invoke = Invoke()

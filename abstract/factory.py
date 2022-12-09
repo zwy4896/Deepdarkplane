@@ -13,3 +13,8 @@ class SceneFactory(ABC):
     @abstractmethod
     def get_scene(self):
         pass
+
+class TraitFactory(ABC):
+    @abstractmethod
+    def get_trait(self):
+        pass
