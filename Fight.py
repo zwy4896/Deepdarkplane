@@ -16,7 +16,7 @@ import enemy
 import bullet
 from pygame.locals import *
 from random import *
-from manager import game_scene
+from Managers import game_scene
 
 scene = game_scene.GameScene()
 bg_size = scene.bg_size
