@@ -10,12 +10,13 @@ Description :
 from .action import *
 from .game_scene import GameScene
 from Characters import *
+from Managers.scene_manager import MainSceneFactory
+from Managers.game_scene import GameScene
 
 class Manager():
     def __init__(self) -> None:
-        self.scene = GameScene()
+        main_scene = MainSceneFactory()
+        self.scene = main_scene.get_scene('initial')
+        GameScene(self.scene)
         self.player = Player(0, 0, 0)
         self.invoke = Invoke()
-
-    def generation(self):
-        pass

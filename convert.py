@@ -2,7 +2,7 @@ import os
 import cv2
 from skimage import io
 
-path = 'assets\\images'
+path = 'assets/images'
 
 for root, dirs, files in os.walk(path):
     for file in files:
