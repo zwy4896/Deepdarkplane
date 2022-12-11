@@ -7,7 +7,6 @@ Date        : 2022/12/07 23:35:31
 Author      : Bluzy
 '''
 
-
 import pygame
 import sys
 import traceback
@@ -17,14 +16,6 @@ import bullet
 from pygame.locals import *
 from random import *
 from Managers import Manager
-import threading
-
-class mouse_thread(threading.Thread):
-    def __init__(self) -> None:
-        threading.Thread.__init__(self)
-    
-    def run(self) -> None:
-        return super().run()
 
 def main():
     clock = pygame.time.Clock()
@@ -45,21 +36,21 @@ def main():
                 pygame.quit()
                 sys.exit()
 
-            elif event.type == MOUSEBUTTONDOWN:
-                if event.button == 1 and scene.paused_rect.collidepoint(event.pos):
-                    paused = not paused
+            # elif event.type == MOUSEBUTTONDOWN:
+            #     if event.button == 1 and scene.paused_rect.collidepoint(event.pos):
+            #         paused = not paused
 
-            elif event.type == MOUSEMOTION:
-                if scene.paused_rect.collidepoint(event.pos):
-                    if paused:
-                        paused_image = scene.resume_prs_image
-                    else:
-                        paused_image = scene.pause_prs_image
-                else:
-                    if paused:
-                        paused_image = scene.resume_nor_image
-                    else:
-                        paused_image = scene.pause_nor_image
+            # elif event.type == MOUSEMOTION:
+            #     if scene.paused_rect.collidepoint(event.pos):
+            #         if paused:
+            #             scene.paused_image = scene.resume_prs_image
+            #         else:
+            #             scene.paused_image = scene.pause_prs_image
+            #     else:
+            #         if paused:
+            #             scene.paused_image = scene.resume_nor_image
+            #         else:
+            #             scene.paused_image = scene.pause_nor_image
         #绘制开始界面
         game_scene.update(scene)
 
@@ -77,7 +68,7 @@ def main():
                 scene.screen.blit(scene.help_text, scene.help_text_rect)
         
         #暂停按钮
-        scene.screen.blit(paused_image, scene.paused_rect)
+        scene.screen.blit(scene.paused_image, scene.paused_rect)
         pygame.display.flip()
         clock.tick(60)
 

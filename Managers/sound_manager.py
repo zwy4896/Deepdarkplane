@@ -1,4 +1,4 @@
-from entity.sounds import Sounds
+from Entities.sounds import Sounds
 
 sounds = Sounds()
 def get_sound(fileName: str, volume: float):
